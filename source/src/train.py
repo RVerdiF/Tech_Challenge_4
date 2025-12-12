@@ -5,6 +5,7 @@ from keras.layers import LSTM, Dense, Dropout
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import os
 import joblib
+import json
 
 # Caminhos
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
@@ -12,6 +13,7 @@ MODELS_DIR = os.path.join(os.path.dirname(__file__), '..', 'models')
 PROCESSED_DATA_PATH = os.path.join(DATA_DIR, 'PETR4.SA_processed.npz')
 MODEL_PATH = os.path.join(MODELS_DIR, 'lstm_model.h5')
 SCALER_PATH = os.path.join(MODELS_DIR, 'scaler.joblib')
+METRICS_PATH = os.path.join(MODELS_DIR, 'metrics.json')
 
 def mean_absolute_percentage_error(y_true, y_pred):
     """Calcula o MAPE."""
@@ -66,6 +68,16 @@ def evaluate_model(model, X_test, y_test, scaler):
     print(f"  RMSE: {rmse:.4f}")
     print(f"  MAPE: {mape:.2f}%")
     
+    # Salvar métricas em JSON
+    metrics_data = {
+        "mae": float(mae),
+        "rmse": float(rmse),
+        "mape": float(mape)
+    }
+    with open(METRICS_PATH, 'w') as f:
+        json.dump(metrics_data, f)
+    print(f"\nMétricas salvas em: {METRICS_PATH}")
+
     return mae, rmse, mape
 
 if __name__ == "__main__":

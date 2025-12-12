@@ -5,12 +5,25 @@ import numpy as np
 import tensorflow as tf
 import joblib
 import os
+import json
+from prometheus_fastapi_instrumentator import Instrumentator
+from prometheus_client import Gauge, REGISTRY, GC_COLLECTOR, PLATFORM_COLLECTOR, PROCESS_COLLECTOR
 
 # --- Configuração de Caminhos e Constantes ---
-MODELS_DIR = os.path.join(os.path.dirname(__file__), 'models')
+MODELS_DIR = os.path.join(os.path.dirname(__file__), 'source', 'models')
 MODEL_PATH = os.path.join(MODELS_DIR, 'lstm_model.h5')
 SCALER_PATH = os.path.join(MODELS_DIR, 'scaler.joblib')
+METRICS_PATH = os.path.join(MODELS_DIR, 'metrics.json')
 TIME_STEPS = 60  # Deve ser o mesmo valor usado no treinamento
+
+# --- Limpeza de Métricas Padrão (Redução de Verbosidade) ---
+# Remove métricas de GC, Processo e Plataforma (Python version, OS info, etc)
+try:
+    REGISTRY.unregister(GC_COLLECTOR)
+    REGISTRY.unregister(PLATFORM_COLLECTOR)
+    REGISTRY.unregister(PROCESS_COLLECTOR)
+except KeyError:
+    pass # Coletores já removidos ou inexistentes
 
 # --- Carregamento de Modelo e Scaler ---
 # Validação de existência dos arquivos
@@ -28,6 +41,24 @@ try:
 except Exception as e:
     raise RuntimeError(f"Erro ao carregar o modelo ou scaler: {e}")
 
+# --- Métricas do Modelo (Prometheus) ---
+model_mae_gauge = Gauge('model_mae', 'Mean Absolute Error of the loaded model')
+model_rmse_gauge = Gauge('model_rmse', 'Root Mean Squared Error of the loaded model')
+model_mape_gauge = Gauge('model_mape', 'Mean Absolute Percentage Error of the loaded model')
+
+if os.path.exists(METRICS_PATH):
+    try:
+        with open(METRICS_PATH, 'r') as f:
+            metrics = json.load(f)
+            model_mae_gauge.set(metrics.get("mae", 0))
+            model_rmse_gauge.set(metrics.get("rmse", 0))
+            model_mape_gauge.set(metrics.get("mape", 0))
+        print(f"Métricas de treinamento carregadas: {metrics}")
+    except Exception as e:
+        print(f"Aviso: Não foi possível carregar metrics.json: {e}")
+else:
+    print("Aviso: Arquivo metrics.json não encontrado. Métricas do modelo estarão zeradas.")
+
 
 # --- Definição da Aplicação FastAPI ---
 app = FastAPI(
@@ -35,6 +66,9 @@ app = FastAPI(
     description="Uma API para prever o próximo preço de fechamento de uma ação usando um modelo LSTM.",
     version="1.0.0"
 )
+
+# --- Instrumentação Prometheus ---
+Instrumentator().instrument(app).expose(app)
 
 # --- Modelos de Dados (Pydantic) ---
 class StockInput(BaseModel):
