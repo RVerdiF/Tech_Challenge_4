@@ -51,7 +51,7 @@ git clone <url-do-repositorio>
 cd <nome-do-repositorio>
 python -m venv .venv
 source .venv/bin/activate  # No Windows: .venv\Scripts\activate
-pip install -r source/requirements.txt
+pip install -r requirements.txt
 ```
 
 ### 2. Coleta e Treinamento

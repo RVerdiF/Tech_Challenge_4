@@ -16,14 +16,11 @@ SCALER_PATH = os.path.join(MODELS_DIR, 'scaler.joblib')
 METRICS_PATH = os.path.join(MODELS_DIR, 'metrics.json')
 TIME_STEPS = 60  # Deve ser o mesmo valor usado no treinamento
 
-# --- Limpeza de Métricas Padrão (Redução de Verbosidade) ---
-# Remove métricas de GC, Processo e Plataforma (Python version, OS info, etc)
-try:
-    REGISTRY.unregister(GC_COLLECTOR)
-    REGISTRY.unregister(PLATFORM_COLLECTOR)
-    REGISTRY.unregister(PROCESS_COLLECTOR)
-except KeyError:
-    pass # Coletores já removidos ou inexistentes
+# --- Métricas Padrão (GC, Processo, Plataforma) ---
+# Os coletores padrão (GC_COLLECTOR, PLATFORM_COLLECTOR, PROCESS_COLLECTOR)
+# são registrados automaticamente pelo cliente Prometheus e fornecem métricas
+# vitais de CPU e Memória exigidas pelos requisitos do projeto.
+
 
 # --- Carregamento de Modelo e Scaler ---
 # Validação de existência dos arquivos
