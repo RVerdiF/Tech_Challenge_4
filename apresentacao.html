@@ -1420,7 +1420,7 @@ curl -X POST <span class="string">"http://localhost:8000/predict"</span> \
             <span class="section-badge">Roteiro</span>
             <h2 class="section-title">Fluxo da Apresentação</h2>
             <p class="section-subtitle">
-                Tempo estimado total: 15-20 minutos
+                Tempo estimado total: 12-16 minutos
             </p>
         </div>
 
@@ -1433,52 +1433,31 @@ curl -X POST <span class="string">"http://localhost:8000/predict"</span> \
                 </div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-time">2-3 min</div>
+                <div class="timeline-time">3-4 min</div>
                 <div class="timeline-content">
-                    <h4>📁 Estrutura do Projeto</h4>
-                    <p>Mostrar organização dos arquivos no VS Code ou terminal.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-time">2-3 min</div>
-                <div class="timeline-content">
-                    <h4>📊 Coleta de Dados</h4>
-                    <p>Explicar uso do yfinance, normalização e janelas temporais.</p>
+                    <h4>� Dados & Estrutura</h4>
+                    <p>Organização do projeto, coleta via yfinance, normalização MinMaxScaler e janelas de 60 dias.</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-time">3-4 min</div>
                 <div class="timeline-content">
                     <h4>🧠 Modelo LSTM</h4>
-                    <p>Arquitetura, hiperparâmetros e métricas de avaliação.</p>
+                    <p>Arquitetura (2 camadas LSTM + Dropout), hiperparâmetros e métricas de avaliação.</p>
                 </div>
             </div>
             <div class="timeline-item">
-                <div class="timeline-time">3-4 min</div>
+                <div class="timeline-time">4-5 min</div>
                 <div class="timeline-content">
-                    <h4>⚡ Demonstração da API</h4>
-                    <p>Swagger UI, testar /predict com dados reais.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-time">2-3 min</div>
-                <div class="timeline-content">
-                    <h4>📈 Monitoramento</h4>
-                    <p>Mostrar métricas Prometheus em /metrics.</p>
-                </div>
-            </div>
-            <div class="timeline-item">
-                <div class="timeline-time">1-2 min</div>
-                <div class="timeline-content">
-                    <h4>🐳 Docker</h4>
-                    <p>Build e run do container.</p>
+                    <h4>⚡ API & Monitoramento</h4>
+                    <p>Demo ao vivo: Swagger UI, teste /predict e /model/info, métricas Prometheus e deploy Docker.</p>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-time">1 min</div>
                 <div class="timeline-content">
                     <h4>✅ Conclusão</h4>
-                    <p>Resumo do pipeline e próximos passos.</p>
+                    <p>Resumo do pipeline completo: coleta → LSTM → API → produção no Render.</p>
                 </div>
             </div>
         </div>
