@@ -73,7 +73,7 @@ class StockInput(BaseModel):
     history: List[float]
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "history": [20.5, 21.2, 20.8, 22.1, 21.9] * 12 # Exemplo com 60 valores
             }

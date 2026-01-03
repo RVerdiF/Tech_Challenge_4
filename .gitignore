@@ -1,7 +1,7 @@
 /.venv
 *.pdf
 data/
-models/
+# models/ - removed to allow source/models/ to be committed for Render deployment
 inst/
 /.vscode
 *pyc
