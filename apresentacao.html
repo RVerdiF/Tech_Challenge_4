@@ -1037,7 +1037,7 @@
     <section>
         <div class="architecture reveal">
             <div class="section-header">
-                <span class="section-badge">Ação Analisada</span>
+                <span class="section-badge">Ação Utilizada</span>
                 <h2 class="section-title">PETR4.SA - Petrobras</h2>
                 <p class="section-subtitle">
                     Dados históricos de 2015 a 2023, processados e normalizados para treinamento do modelo.
@@ -1145,8 +1145,7 @@
                 <span class="code-title">data_processing.py</span>
             </div>
             <div class="code-content">
-                <code>
-<span class="comment"># Coleta de dados históricos</span>
+                <pre><code><span class="comment"># Coleta de dados históricos</span>
 data = yf.<span class="function">download</span>(<span class="string">"PETR4.SA"</span>, start=<span class="string">"2015-01-01"</span>, end=<span class="string">"2023-12-31"</span>)
 
 <span class="comment"># Normalização dos dados</span>
@@ -1154,8 +1153,7 @@ scaler = <span class="function">MinMaxScaler</span>(feature_range=(<span class="
 scaled_data = scaler.<span class="function">fit_transform</span>(data_close)
 
 <span class="comment"># Divisão: 80% treino, 20% teste</span>
-train_size = <span class="function">int</span>(<span class="function">len</span>(scaled_data) * <span class="number">0.8</span>)
-                </code>
+train_size = <span class="function">int</span>(<span class="function">len</span>(scaled_data) * <span class="number">0.8</span>)</code></pre>
             </div>
         </div>
     </section>
@@ -1201,6 +1199,32 @@ train_size = <span class="function">int</span>(<span class="function">len</span>
                     <span class="layer-desc">Preço previsto</span>
                     <div class="layer-box output">Dense (1 neurônio) → Saída</div>
                 </div>
+            </div>
+        </div>
+
+        <div class="code-block reveal" style="margin-top: 2rem;">
+            <div class="code-header">
+                <span class="code-dot red"></span>
+                <span class="code-dot yellow"></span>
+                <span class="code-dot green"></span>
+                <span class="code-title">train.py</span>
+            </div>
+            <div class="code-content">
+                <pre><code><span class="comment"># Construção do modelo LSTM</span>
+model = <span class="function">Sequential</span>([
+    <span class="function">LSTM</span>(<span class="number">50</span>, return_sequences=<span class="keyword">True</span>, input_shape=(<span class="number">60</span>, <span class="number">1</span>)),
+    <span class="function">Dropout</span>(<span class="number">0.2</span>),
+    <span class="function">LSTM</span>(<span class="number">50</span>),
+    <span class="function">Dropout</span>(<span class="number">0.2</span>),
+    <span class="function">Dense</span>(<span class="number">25</span>),
+    <span class="function">Dense</span>(<span class="number">1</span>)
+])
+
+<span class="comment"># Compilação</span>
+model.<span class="function">compile</span>(optimizer=<span class="string">'adam'</span>, loss=<span class="string">'mse'</span>)
+
+<span class="comment"># Treinamento</span>
+model.<span class="function">fit</span>(X_train, y_train, epochs=<span class="number">25</span>, batch_size=<span class="number">32</span>)</code></pre>
             </div>
         </div>
 
