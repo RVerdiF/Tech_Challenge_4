@@ -16,6 +16,18 @@ SCALER_PATH = os.path.join(MODELS_DIR, 'scaler.joblib')
 METRICS_PATH = os.path.join(MODELS_DIR, 'metrics.json')
 TIME_STEPS = 60  # Deve ser o mesmo valor usado no treinamento
 
+# --- Informações do Modelo ---
+MODEL_INFO = {
+    "ticker": "PETR4.SA",
+    "company": "Petrobras PN",
+    "training_period": {
+        "start": "2015-01-01",
+        "end": "2023-12-31"
+    },
+    "model_architecture": "LSTM (2 layers, 50 units each)",
+    "time_steps": TIME_STEPS
+}
+
 # --- Métricas Padrão (GC, Processo, Plataforma) ---
 # Os coletores padrão (GC_COLLECTOR, PLATFORM_COLLECTOR, PROCESS_COLLECTOR)
 # são registrados automaticamente pelo cliente Prometheus e fornecem métricas
@@ -97,6 +109,36 @@ class PredictionOutput(BaseModel):
 def read_root():
     """Endpoint raiz para verificar o status da API."""
     return {"message": "API de Previsão de Ações está no ar!"}
+
+@app.get("/model/info", tags=["Model"])
+def get_model_info():
+    """
+    Retorna informações sobre o modelo LSTM treinado.
+    
+    Inclui detalhes sobre:
+    - **Ticker**: Símbolo da ação utilizada no treinamento
+    - **Empresa**: Nome da empresa
+    - **Período de Treinamento**: Datas de início e fim dos dados de treino
+    - **Arquitetura**: Descrição da arquitetura do modelo
+    - **Métricas**: MAE, RMSE e MAPE obtidos na avaliação
+    """
+    # Carregar métricas atualizadas do arquivo
+    metrics_data = {"mae": 0, "rmse": 0, "mape": 0}
+    if os.path.exists(METRICS_PATH):
+        try:
+            with open(METRICS_PATH, 'r') as f:
+                metrics_data = json.load(f)
+        except Exception:
+            pass
+    
+    return {
+        **MODEL_INFO,
+        "metrics": {
+            "mae": round(metrics_data.get("mae", 0), 4),
+            "rmse": round(metrics_data.get("rmse", 0), 4),
+            "mape": round(metrics_data.get("mape", 0), 2)
+        }
+    }
 
 @app.post("/predict", response_model=PredictionOutput, tags=["Prediction"])
 def predict(data: StockInput):
