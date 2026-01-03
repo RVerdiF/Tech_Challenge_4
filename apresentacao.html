@@ -976,7 +976,6 @@
             </div>
             <ul class="nav-links">
                 <li><a href="#overview">Visão Geral</a></li>
-                <li><a href="#structure">Estrutura</a></li>
                 <li><a href="#data">Dados</a></li>
                 <li><a href="#model">Modelo</a></li>
                 <li><a href="#api">API</a></li>
@@ -1030,88 +1029,50 @@
                     <span>Docker</span>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Stock Info -->
-    <section>
-        <div class="architecture reveal">
-            <div class="section-header">
-                <span class="section-badge">Ação Utilizada</span>
-                <h2 class="section-title">PETR4.SA - Petrobras</h2>
-                <p class="section-subtitle">
-                    Dados históricos de 2015 a 2023, processados e normalizados para treinamento do modelo.
-                </p>
-            </div>
-            <div class="pipeline">
-                <div class="pipeline-step">
-                    <span class="icon">📥</span>
-                    <span>Coleta</span>
-                </div>
-                <span class="pipeline-arrow">→</span>
-                <div class="pipeline-step">
-                    <span class="icon">🔧</span>
-                    <span>Pré-processamento</span>
-                </div>
-                <span class="pipeline-arrow">→</span>
-                <div class="pipeline-step">
-                    <span class="icon">🧠</span>
-                    <span>Treinamento</span>
-                </div>
-                <span class="pipeline-arrow">→</span>
-                <div class="pipeline-step">
-                    <span class="icon">🌐</span>
-                    <span>API</span>
-                </div>
-                <span class="pipeline-arrow">→</span>
-                <div class="pipeline-step">
-                    <span class="icon">📈</span>
-                    <span>Monitoramento</span>
+            <div class="architecture reveal" style="margin-top: 3rem;">
+                <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-secondary);">Pipeline de
+                    Funcionamento</h3>
+                <div class="pipeline">
+                    <div class="pipeline-step">
+                        <span class="icon">📥</span>
+                        <span>Coleta</span>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <span class="icon">🔧</span>
+                        <span>Pré-processamento</span>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <span class="icon">🧠</span>
+                        <span>Treinamento</span>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <span class="icon">🌐</span>
+                        <span>API</span>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <span class="icon">📈</span>
+                        <span>Monitoramento</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Structure Section -->
-    <section id="structure">
-        <div class="section-header reveal">
-            <span class="section-badge">Organização</span>
-            <h2 class="section-title">Estrutura do Projeto</h2>
-            <p class="section-subtitle">
-                Arquivos principais organizados para manutenibilidade e escalabilidade.
-            </p>
-        </div>
-        <div class="cards-grid">
-            <div class="card reveal">
-                <div class="card-icon purple">📊</div>
-                <h3>data_processing.py</h3>
-                <p>Coleta dados históricos via yfinance e realiza pré-processamento com normalização MinMaxScaler.</p>
-            </div>
-            <div class="card reveal">
-                <div class="card-icon cyan">🧠</div>
-                <h3>train.py</h3>
-                <p>Construção e treinamento do modelo LSTM com camadas de Dropout para evitar overfitting.</p>
-            </div>
-            <div class="card reveal">
-                <div class="card-icon pink">⚡</div>
-                <h3>main.py</h3>
-                <p>API FastAPI com endpoints para previsões, documentação automática Swagger e métricas.</p>
-            </div>
-            <div class="card reveal">
-                <div class="card-icon green">🐳</div>
-                <h3>Dockerfile</h3>
-                <p>Containerização otimizada para deploy em qualquer ambiente cloud ou on-premise.</p>
-            </div>
-        </div>
-    </section>
 
     <!-- Data Section -->
     <section id="data">
+
         <div class="section-header reveal">
             <span class="section-badge">Pré-processamento</span>
             <h2 class="section-title">Coleta e Tratamento de Dados</h2>
             <p class="section-subtitle">
-                Pipeline de dados otimizada para séries temporais financeiras.
+                <strong>PETR4.SA - Petrobras</strong> · Dados históricos de 2015 a 2023, processados e normalizados para
+                treinamento do modelo.
             </p>
         </div>
         <div class="cards-grid">
