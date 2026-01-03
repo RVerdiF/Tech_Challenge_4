@@ -65,7 +65,15 @@ app = FastAPI(
 )
 
 # --- Instrumentação Prometheus ---
-Instrumentator().instrument(app).expose(app)
+Instrumentator().instrument(app).expose(
+    app,
+    endpoint="/metrics",
+    tags=["Monitoring"],
+    summary="Métricas Prometheus",
+    description="Endpoint que expõe métricas de monitoramento para o Prometheus, "
+                "incluindo métricas do modelo (MAE, RMSE, MAPE), uso de CPU, memória "
+                "e estatísticas de requisições HTTP."
+)
 
 # --- Modelos de Dados (Pydantic) ---
 class StockInput(BaseModel):
